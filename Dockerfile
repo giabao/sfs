@@ -6,3 +6,5 @@ RUN curl -L "https://www.smartfoxserver.com/downloads/sfs2x/SFS2X_unix_$SFS_VERS
     | gunzip \
     | tar x -C /opt/ && \
     rm -Rf /opt/SmartFoxServer_2X/jre
+
+WORKDIR /opt/SmartFoxServer_2X/SFS2X
