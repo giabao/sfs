@@ -10,12 +10,11 @@ RUN set -eux; \
     rm -Rf jre; \
     ln -s /opt/java/openjdk/ jre; \
     { \
-		echo '#!/bin/sh'; \
-		echo 'set -e'; \
-        echo 'exec "$@"'; \
-	} | tee SFS2X/entrypoint; \
+        echo '#!/bin/sh'; \
+        echo 'set -e'; \
+	echo 'exec "$@"'; \
+    } | tee SFS2X/entrypoint; \
     chmod a+x SFS2X/entrypoint;
-    
 
 WORKDIR /opt/SmartFoxServer_2X/SFS2X
 ENTRYPOINT ["./entrypoint"]
