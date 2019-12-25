@@ -1,22 +1,15 @@
-FROM adoptopenjdk:11-jre-hotspot
+FROM ohze/sfs:2.13.0
 
-ARG SFS_VERSION=2_13_0
+ARG SFS_PATCH=2.13.7
 
 RUN set -eux; \
-    curl -L "http://repo.bennuoc.com/repository/raw/SFS2X_unix_$SFS_VERSION.tar.gz" \
-    | gunzip \
-    | tar x -C /opt/; \
-    cd /opt/SmartFoxServer_2X/; \
-    rm -Rf jre; \
-    ln -s /opt/java/openjdk/ jre; \
-    { \
-        echo '#!/bin/sh'; \
-        echo 'set -e'; \
-	echo 'exec "$@"'; \
-    } | tee SFS2X/entrypoint; \
-    chmod a+x SFS2X/entrypoint;
-
-WORKDIR /opt/SmartFoxServer_2X/SFS2X
-ENTRYPOINT ["./entrypoint"]
-EXPOSE 9933 8080 8443
-CMD ["./sfs2x-service", "start-launchd"]
+    apt-get update && apt-get install -y unzip; \
+    cd /opt/SmartFoxServer_2X; \
+    curl -LO "http://repo.bennuoc.com/repository/raw/SFS2X-Patch-$SFS_PATCH.zip"; \
+    unzip -q SFS2X-Patch-$SFS_PATCH.zip; \
+    apt-get remove --purge -y unzip; \
+    rm -rf /var/lib/apt/lists/*; \
+    cd SFS2X-Patch-$SFS_PATCH; \
+    ./install-linux.sh; \
+    cd ..; \
+    rm -rf SFS2X-Patch-$SFS_PATCH SFS2X-Patch-$SFS_PATCH.zip;
