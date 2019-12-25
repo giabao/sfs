@@ -3,7 +3,7 @@ FROM adoptopenjdk:11-jre-hotspot
 ARG SFS_VERSION=2_13_0
 
 RUN set -eux; \
-    curl -L "https://www.smartfoxserver.com/downloads/sfs2x/SFS2X_unix_$SFS_VERSION.tar.gz" \
+    curl -L "http://repo.bennuoc.com/repository/raw/SFS2X_unix_$SFS_VERSION.tar.gz" \
     | gunzip \
     | tar x -C /opt/; \
     cd /opt/SmartFoxServer_2X/; \
